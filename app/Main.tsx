@@ -16,8 +16,9 @@ export default function Home() {
           </p>
         </div>
 
-
-        <div>Some data can be change in <b>"data/siteMetadata.js"</b></div>
+        <div>
+          Some data can be change in <b>"data/siteMetadata.js"</b>
+        </div>
         <div>Write project finding here, with some chart from PowerBI</div>
         <div>Write project finding here, with some chart from PowerBI</div>
         {/* Remove all for space for project content*/}

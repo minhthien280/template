@@ -39,5 +39,3 @@ export default async function Page() {
     </>
   )
 }
-
-console.log(Page());

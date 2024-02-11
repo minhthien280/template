@@ -37,9 +37,7 @@ const Header = () => {
               {link.title}
             </Link>
           ))}
-        
         <ThemeSwitch />
-        
       </div>
     </header>
   )
