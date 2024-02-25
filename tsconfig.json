@@ -33,6 +33,7 @@
   "include": [
     "next-env.d.ts",
     "**/*.js",
+    "**/*.jsx",
     "**/*.mjs",
     "**/*.ts",
     "**/*.tsx",
@@ -41,5 +42,7 @@
     ".contentlayer/generated/**/*.json",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+  ]
 }
