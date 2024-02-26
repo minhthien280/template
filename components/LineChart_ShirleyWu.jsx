@@ -22,7 +22,7 @@ function SWLineDraw(data, xRef, yRef) {
   d3.select(xRef.current).call(xAxis)
   d3.select(yRef.current).call(yAxis)
 
-  function showChart(){
+  function showChart() {
     console.log(xRef)
     d3.select(xRef.current).call(xAxis)
     d3.select(yRef.current).call(yAxis)
