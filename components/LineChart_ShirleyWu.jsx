@@ -18,11 +18,9 @@ function SWLineDraw(data, xRef, yRef) {
   const yAxis = d3.axisLeft().scale(y)
 
   // console.log(xRef)
-  if (xRef.current && xRef.current.tagName == 'g') {
-    //console.log('component ready')
-    d3.select(xRef.current).call(xAxis)
-    d3.select(yRef.current).call(yAxis)
-  }
+
+  d3.select(xRef.current).call(xAxis)
+  d3.select(yRef.current).call(yAxis)
 
   // function showChart(){
   //   console.log(xRef)
