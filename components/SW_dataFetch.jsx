@@ -7,7 +7,7 @@ export function SWLine() {
   const [rawData, setData] = useState(null)
 
   useEffect(() => {
-    fetch('http://173.79.230.54:300/data')
+    fetch('https://minhthien-vipcg-edb4d416-1240-4f02-841e-828974874d14.socketxp.com/data')
       .then((res) => res.json())
       .then((data) => {
         setData(data)
