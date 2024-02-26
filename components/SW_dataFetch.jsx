@@ -7,7 +7,7 @@ export function SWLine() {
   const [rawData, setData] = useState(null)
 
   useEffect(() => {
-    fetch('http://192.168.50.237:5000/data')
+    fetch('http://173.79.230.54:300/data')
       .then((res) => res.json())
       .then((data) => {
         setData(data)
