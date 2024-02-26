@@ -22,18 +22,18 @@ function SWLineDraw(data, xRef, yRef) {
   d3.select(xRef.current).call(xAxis)
   d3.select(yRef.current).call(yAxis)
 
-  // function showChart(){
-  //   console.log(xRef)
-  //   d3.select(xRef.current).call(xAxis)
-  //   d3.select(yRef.current).call(yAxis)
-  // }
+  function showChart(){
+    console.log(xRef)
+    d3.select(xRef.current).call(xAxis)
+    d3.select(yRef.current).call(yAxis)
+  }
 
   // Building axis
   // Because of the nature of REACT, the axis must be build seperately, and customize with the help of d3 calculations
   // https://www.react-graph-gallery.com/build-axis-with-react
   return (
     <>
-      {/* <button onClick={showChart}>show Chart</button> */}
+      <button onClick={showChart}>show Chart</button>
       <svg width={width} height={height}>
         <g transform={`translate(${marginLeft}, ${marginTop})`}>
           <g ref={xRef} transform={`translate(0,${innerHeight})`} />
