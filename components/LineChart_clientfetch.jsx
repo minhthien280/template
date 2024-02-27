@@ -9,7 +9,7 @@ function LinePlot1() {
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('https://minhthien-vipcg-500edfc3-ecb4-4b56-ac26-fd83aeca711f.socketxp.com', {
+    fetch('https://cse6242.azurewebsites.net/api/data', {
       method: 'GET',
     })
       .then((res) => {
