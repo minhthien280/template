@@ -20,7 +20,7 @@ export function SWLine() {
         setData(data)
       })
   }, [])
-  
+
   const xRef = useRef(null)
   const yRef = useRef(null)
   if (!rawData) return

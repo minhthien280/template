@@ -8,7 +8,6 @@ import { AxisLeft } from './D3Components/AxisLeft'
 const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 function LinePlot1() {
-  
   const [rawData, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
 
