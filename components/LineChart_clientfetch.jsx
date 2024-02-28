@@ -1,15 +1,19 @@
 'use client'
 import { useState, useEffect } from 'react'
+import useSWR from 'swr'
 import * as d3 from 'd3'
 import { AxisBottom } from './D3Components/AxisBottom'
 import { AxisLeft } from './D3Components/AxisLeft'
 
+const fetcher = (...args) => fetch(...args).then((res) => res.json())
+
 function LinePlot1() {
+  
   const [rawData, setData] = useState(null)
   const [isLoading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch('https://cse6242.azurewebsites.net/api/data', {
+    fetch('/api/data', {
       method: 'GET',
     })
       .then((res) => {
@@ -20,10 +24,10 @@ function LinePlot1() {
         setLoading(false)
       })
   }, [])
-  if (isLoading) return <p>Loading...</p>
+  if (isLoading) return <p>Failed to Load</p>
   if (!rawData) return <p>No data yet</p>
 
-  const data = rawData.data
+  const data = rawData
   const width = 640
   const height = 400
   const marginTop = 20
