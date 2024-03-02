@@ -9,6 +9,7 @@ import TableWrapper from './TableWrapper'
 // import getDataFromFlask from './fetchData'
 import LinePlot1 from './LineChart_clientfetch'
 import { SWLine } from './SW_dataFetch'
+import HomeChart from './HomeChart'
 
 export const components: MDXComponents = {
   Image,
@@ -20,4 +21,5 @@ export const components: MDXComponents = {
   //getDataFromFlask,
   LinePlot1,
   SWLine,
+  HomeChart,
 }

@@ -7,7 +7,7 @@ import { genPageMetadata } from 'app/seo'
 export const metadata = genPageMetadata({ title: 'About' })
 
 export default function Page() {
-  const team_members = ['jessie', 'calvin', 'thomas']
+  const team_members = ['jessie', 'calvin', 'thomas', 'andre']
   const authors = allAuthors.filter((p) => team_members.includes(p.slug))
   const mainContent = authors.map((author) => coreContent(author))
 

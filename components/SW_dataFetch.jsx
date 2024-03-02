@@ -2,9 +2,6 @@
 
 import { useEffect, useState, useRef } from 'react'
 import SWLineDraw from './LineChart_ShirleyWu'
-import useSWR from 'swr'
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json())
 
 export function SWLine() {
   const [rawData, setData] = useState(null)

@@ -1,9 +1,13 @@
-import Link from '@/components/Link'
-import Tag from '@/components/Tag'
 import siteMetadata from '@/data/siteMetadata'
-import { formatDate } from 'pliny/utils/formatDate'
+
+import { allHomes } from 'contentlayer/generated'
+import type { Home } from 'contentlayer/generated'
+import { components } from '@/components/MDXComponents'
+import { MDXLayoutRenderer } from 'pliny/mdx-components'
 
 export default function Home() {
+  const post = allHomes.find((p) => p.slug === 'home') as Home
+
   return (
     <>
       <div className="dark:divide-gray-700">
@@ -16,6 +20,7 @@ export default function Home() {
           </p>
         </div>
 
+        <MDXLayoutRenderer code={post.body.code} components={components} toc={post.toc} />
         <div>
           Some data can be change in <b>"data/siteMetadata.js"</b>
         </div>
