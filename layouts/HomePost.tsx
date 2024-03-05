@@ -21,7 +21,6 @@ export default function HomePostLayout({ content, next, prev, children }: Layout
 
   return (
     <SectionContainer>
-      <ScrollTopAndComment />
       <article>
         <div>
           <header>
