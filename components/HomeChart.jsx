@@ -21,3 +21,4 @@ export default function HomeChart() {
     </>
   )
 }
+// width="960" height="600" viewBox="[0,0,960,600]"

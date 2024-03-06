@@ -1,5 +1,8 @@
 import * as d3 from 'd3'
 export default function DrawChart(data, svgRef, selectRef) {
+  //console.log(svgRef)
+  //console.log(selectRef)
+  //if (!svgRef || !selectRef) return
   // Chart Dimensions
   const width = 928
   const height = 600
@@ -50,8 +53,9 @@ export default function DrawChart(data, svgRef, selectRef) {
   const zScale = d3.scaleOrdinal(d3.schemeCategory10).domain(series.map((d) => d.indicator))
 
   // Create SVG
-  const svg = d3
-    .select('#chart')
+  const svg = d3.select(svgRef.current)
+
+  svg
     .attr('width', width)
     .attr('height', height)
     .attr('viewBox', [0, 0, width, height])
@@ -60,7 +64,7 @@ export default function DrawChart(data, svgRef, selectRef) {
   // Create axes
   // X-axis
   var x_axis = d3.axisBottom().scale(xScale).ticks(10).tickFormat(d3.format(''))
-
+  console.log(svg)
   svg
     .append('g')
     .attr('id', 'xAxis')
@@ -113,7 +117,7 @@ export default function DrawChart(data, svgRef, selectRef) {
     .text('Fertility Rate')
 
   // Options for the button
-  d3.select('#selectButton')
+  d3.select(selectRef.current)
     .selectAll('myOptions')
     .data(indicators)
     .enter()
@@ -234,7 +238,7 @@ export default function DrawChart(data, svgRef, selectRef) {
   }
 
   // When the button is changed we run the udpate function
-  d3.select('#selectButton').on('change', function (event, d) {
+  d3.select(selectRef.current).on('change', function (event, d) {
     // obtain chosen option
     const selectedOption = d3.select(this).property('value')
     console.log(selectRef)
