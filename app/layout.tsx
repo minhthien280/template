@@ -9,6 +9,7 @@ import SectionContainer from '@/components/SectionContainer'
 import Footer from '@/components/Footer'
 import siteMetadata from '@/data/siteMetadata'
 import { ThemeProviders } from './theme-providers'
+import { NextUIProvider } from '@nextui-org/react'
 import { Metadata } from 'next'
 
 const space_grotesk = Space_Grotesk({

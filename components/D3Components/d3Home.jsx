@@ -64,7 +64,7 @@ export default function DrawChart(data, svgRef, selectRef) {
   // Create axes
   // X-axis
   var x_axis = d3.axisBottom().scale(xScale).ticks(10).tickFormat(d3.format(''))
-  console.log(svg)
+  //console.log(svg)
   svg
     .append('g')
     .attr('id', 'xAxis')

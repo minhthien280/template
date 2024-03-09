@@ -41,7 +41,7 @@
     ".contentlayer/generated",
     ".contentlayer/generated/**/*.json",
     ".next/types/**/*.ts"
-  ],
+, "app/projects/page.tsx"  ],
   "exclude": [
     "node_modules",
   ]
