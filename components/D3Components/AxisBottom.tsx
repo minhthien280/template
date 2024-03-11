@@ -20,7 +20,7 @@ export const AxisBottom = ({ xScale, pixelsPerTick }: AxisBottomProps) => {
       value,
       xOffset: xScale(value),
     }))
-  }, [])
+  }, [pixelsPerTick, xScale, range])
   //console.log('x-ticks', ticks)
   return (
     <>
