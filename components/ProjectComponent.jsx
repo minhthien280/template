@@ -6,14 +6,6 @@ import DrawChart, { UpdateChart } from './D3Components/d3Project'
 export default function ProjectComponent() {
   const regions = [
     {
-      value: 'Asia & Pacific',
-      label: 'Asia & Pacific',
-    },
-    {
-      value: 'Europe',
-      label: 'Europe',
-    },
-    {
       value: 'Africa',
       label: 'Africa',
     },
@@ -22,8 +14,24 @@ export default function ProjectComponent() {
       label: 'Arab States',
     },
     {
+      value: 'Asia & Pacific',
+      label: 'Asia & Pacific',
+    },
+    {
+      value: 'Europe',
+      label: 'Europe',
+    },
+    {
+      value: 'Middle east',
+      label: 'Middle east',
+    },
+    {
       value: 'South/Latin America',
       label: 'South/Latin America',
+    },
+    {
+      value: 'South/Central America',
+      label: 'South/Central America',
     },
     {
       value: 'North America',

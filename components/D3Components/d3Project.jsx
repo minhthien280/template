@@ -4,33 +4,31 @@ const width = 700
 const height = 600
 const margin = { Top: 20, Right: 20, Bottom: 60, Left: 60 }
 
+const fertility_data = {
+  'Asia & Pacific': 2,
+  Africa: 3.564,
+  'Arab States': 2.889,
+  Europe: 1.043,
+  'Middle east': 2,
+  'North America': 1,
+  'Central America': 2,
+  'Latin America': 1.424,
+}
+const listOfRegions = Object.keys(fertility_data)
+// Horizontal scale
+const xScale = d3
+  .scaleBand()
+  .domain(listOfRegions)
+  .range([margin.Left, width - margin.Right])
+  .padding(0.1)
+
+// Vertical scale
+const yScale = d3
+  .scaleLinear()
+  .range([height - margin.Bottom, margin.Top])
+  .domain([0.5, 4.5])
+
 export default function DrawChart(svgRef) {
-  // Loading dataset
-  // Data should be the true Fertility Rate not the changes
-  const data = {
-    'Asia & Pacific': -0.9412517191629717,
-    Africa: -0.887478699269109,
-    'Arab States': -0.9334618653054161,
-    Europe: -0.9597953686054055,
-    'Middle east': -0.9843197531390941,
-    'North America': -0.9872357723577236,
-    'Central America': -0.978494623655914,
-    'Latin America': -0.9150413630606444,
-  }
-  const listOfRegions = Object.keys(data)
-
-  // Horizontal scale
-  const xScale = d3
-    .scaleBand()
-    .domain(listOfRegions)
-    .range([margin.Left, width - margin.Right])
-
-  // Vertical scale
-  const yScale = d3
-    .scaleLinear()
-    .range([height - margin.Bottom, margin.Top])
-    .domain([-2, 2])
-
   // Color scale
   const zScale = d3.scaleOrdinal(d3.schemeCategory10).domain(listOfRegions)
 
@@ -67,6 +65,7 @@ export default function DrawChart(svgRef) {
     .append('g')
     .attr('id', 'yAxis')
     .attr('transform', 'translate(' + margin.Left + ',0)')
+  svg.select('#yAxis').call(y_axis)
 
   svg
     .append('text')
@@ -87,27 +86,57 @@ export default function DrawChart(svgRef) {
     .enter()
     .append('rect')
     .attr('x', (d) => xScale(d))
-    .attr('y', (d) => Math.min(yScale(data[d]), yScale(0)))
-    .attr('width', xScale.bandwidth() - 10)
-    .attr('height', (d) => Math.abs(yScale(0) - yScale(data[d])))
+    .attr('y', (d) => Math.min(yScale(fertility_data[d]), yScale(0)))
+    .attr('width', xScale.bandwidth())
+    .attr('height', (d) => Math.abs(yScale(0.5) - yScale(fertility_data[d])))
     .attr('fill', (d) => zScale(d))
 
-  svg.select('#yAxis').call(y_axis)
+  // Create dots for predictions
+  svg
+    .append('g')
+    .attr('id', 'prediction')
+    .attr('stroke-width', 1.5)
+    .selectAll('path')
+    .data(listOfRegions)
+    .join('path')
+    .attr(
+      'transform',
+      (d) => `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(fertility_data[d])})`
+    )
+    .attr('fill', 'black')
+    .attr('d', d3.symbol(d3.symbolCircle))
+
+  svg
+    .select('#prediction')
+    .selectAll('text')
+    .data(listOfRegions)
+    .join('text')
+    .attr(
+      'transform',
+      (d) => `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(fertility_data[d]) - 20})`
+    )
+    .attr('fill', 'black')
+    .attr('text-anchor', 'middle')
+    .text((d) => d3.format('.2f')(fertility_data[d]))
 }
 
 export function UpdateChart(data, svgRef) {
-  const yScale = d3
-    .scaleLinear()
-    .range([height - margin.Bottom, margin.Top])
-    .domain([-2, 2])
-  d3.select(svgRef.current).select('#predict').remove()
-  const line = d3.select(svgRef.current).append('line').attr('id', 'predict')
-  console.log(data.res)
-  line
-    .style('display', 'block')
-    .attr('x1', margin.Left)
-    .attr('y1', yScale(data.res))
-    .attr('x2', width - margin.Right)
-    .attr('y2', yScale(data.res))
-    .attr('stroke', 'purple')
+  const p = d3.select(svgRef.current).select('#prediction')
+  // console.log(data.res)
+  // console.log(p.selectAll('path'))
+  p.selectAll('path')
+    .data(listOfRegions)
+    .attr(
+      'transform',
+      (d) =>
+        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale((1 + data.res / 100) * fertility_data[d])})`
+    )
+  p.selectAll('text')
+    .data(listOfRegions)
+    .attr(
+      'transform',
+      (d) =>
+        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale((1 + data.res / 100) * fertility_data[d]) - 20})`
+    )
+    .text((d) => d3.format('.2f')((1 + data.res / 100) * fertility_data[d]))
 }
