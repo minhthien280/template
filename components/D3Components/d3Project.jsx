@@ -156,7 +156,7 @@ export default function DrawChart(svgRef, tooltipRef) {
     .join('text')
     .attr(
       'transform',
-      (d) => `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(fertility_data[d]) - 20})`
+      (d) => `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(fertility_data[d]) - 10})`
     )
     .attr('fill', 'black')
     .attr('text-anchor', 'middle')
@@ -202,7 +202,7 @@ export function UpdateChart(data, svgRef) {
     .attr(
       'transform',
       (d) =>
-        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(predicted_fertility_data[d])})`
+        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(predicted_fertility_data[d]) - 10})`
     )
     .text((d) => d3.format('.2f')(predicted_fertility_data[d]))
 }
