@@ -14,6 +14,16 @@ const fertility_data = {
   'Central America': 2,
   'Latin America': 1.424,
 }
+let predicted_fertility_data = {
+  'Asia & Pacific': 2,
+  Africa: 3.564,
+  'Arab States': 2.889,
+  Europe: 1.043,
+  'Middle east': 2,
+  'North America': 1,
+  'Central America': 2,
+  'Latin America': 1.424,
+}
 const listOfRegions = Object.keys(fertility_data)
 // Horizontal scale
 const xScale = d3
@@ -28,7 +38,7 @@ const yScale = d3
   .range([height - margin.Bottom, margin.Top])
   .domain([0.5, 4.5])
 
-export default function DrawChart(svgRef) {
+export default function DrawChart(svgRef, tooltipRef) {
   // Color scale
   const zScale = d3.scaleOrdinal(d3.schemeCategory10).domain(listOfRegions)
 
@@ -77,6 +87,36 @@ export default function DrawChart(svgRef) {
     .attr('transform', 'rotate(-90)')
     .text('Fertility Rate')
 
+  // create a tooltip
+  var Tooltip = d3
+    .select(tooltipRef.current)
+    .append('div')
+    .style('opacity', 0)
+    .attr('class', 'tooltip')
+    .style('background-color', 'white')
+    .style('border', 'solid')
+    .style('border-width', '2px')
+    .style('border-radius', '5px')
+    .style('padding', '5px')
+    .style('position', 'absolute')
+  // Three function that change the tooltip when user hover / move / leave a cell
+  var mouseover = function (d) {
+    Tooltip.style('opacity', 1)
+    d3.select(this).style('stroke', 'black').style('opacity', 1)
+  }
+  var mousemove = function (d, region) {
+    console.log(d)
+    Tooltip.html(
+      `2022 average: ${fertility_data[region]}<br>Predicted value: ${predicted_fertility_data[region]}`
+    )
+      .style('left', d.layerX + 20 + 'px')
+      .style('top', d.layerY + 20 + 'px')
+  }
+  var mouseleave = function (d) {
+    Tooltip.style('opacity', 0)
+    d3.select(this).style('stroke', 'none').style('opacity', 0.8)
+  }
+
   // Create rectangles
   svg
     .append('g')
@@ -90,6 +130,9 @@ export default function DrawChart(svgRef) {
     .attr('width', xScale.bandwidth())
     .attr('height', (d) => Math.abs(yScale(0.5) - yScale(fertility_data[d])))
     .attr('fill', (d) => zScale(d))
+    .on('mouseover', mouseover)
+    .on('mousemove', mousemove)
+    .on('mouseleave', mouseleave)
 
   // Create dots for predictions
   svg
@@ -118,25 +161,48 @@ export default function DrawChart(svgRef) {
     .attr('fill', 'black')
     .attr('text-anchor', 'middle')
     .text((d) => d3.format('.2f')(fertility_data[d]))
+
+  // Chart title
+  svg
+    .append('text')
+    .attr('x', width / 2 - margin.Left)
+    .attr('y', margin.Top)
+    .text('Fertility Rate Prediction')
+
+  // Legend
+  const legend = svg
+    .append('g')
+    .attr('id', 'legend')
+    .attr('transform', `translate(${width - margin.Right * 6}, ${margin.Top * 2})`)
+  legend.append('path').attr('d', d3.symbol(d3.symbolCircle))
+  legend
+    .append('text')
+    .attr('x', -60)
+    .attr('y', 30)
+    .attr('text-anchor', 'center')
+    .text('Predicted amount')
 }
 
 export function UpdateChart(data, svgRef) {
   const p = d3.select(svgRef.current).select('#prediction')
   // console.log(data.res)
   // console.log(p.selectAll('path'))
+  listOfRegions.forEach(
+    (d) => (predicted_fertility_data[d] = (1 + data.res / 100) * fertility_data[d])
+  )
   p.selectAll('path')
     .data(listOfRegions)
     .attr(
       'transform',
       (d) =>
-        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale((1 + data.res / 100) * fertility_data[d])})`
+        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(predicted_fertility_data[d])})`
     )
   p.selectAll('text')
     .data(listOfRegions)
     .attr(
       'transform',
       (d) =>
-        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale((1 + data.res / 100) * fertility_data[d]) - 20})`
+        `translate(${xScale(d) + xScale.bandwidth() / 2}, ${yScale(predicted_fertility_data[d])})`
     )
-    .text((d) => d3.format('.2f')((1 + data.res / 100) * fertility_data[d]))
+    .text((d) => d3.format('.2f')(predicted_fertility_data[d]))
 }

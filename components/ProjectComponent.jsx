@@ -1,6 +1,7 @@
 'use client'
 import { Button, Select, SelectItem, Slider } from '@nextui-org/react'
 import { useState, useRef, useEffect } from 'react'
+import useMouse from '@react-hook/mouse-position'
 import DrawChart, { UpdateChart } from './D3Components/d3Project'
 
 export default function ProjectComponent() {
@@ -39,6 +40,7 @@ export default function ProjectComponent() {
     },
   ]
   const svgRef = useRef()
+  const tooltipRef = useRef()
   const [region, setRegion] = useState()
   const [water, setWater] = useState(0)
   const [sanitation, setSanitation] = useState(0)
@@ -98,7 +100,7 @@ export default function ProjectComponent() {
   }
 
   useEffect(() => {
-    DrawChart(svgRef)
+    DrawChart(svgRef, tooltipRef)
   }, [])
   return (
     <div className="items-start space-y-2 xl:grid xl:grid-cols-2 xl:gap-x-8 xl:space-y-0">
@@ -191,7 +193,7 @@ export default function ProjectComponent() {
         </div>
         <Button onClick={onButtonClicked}>Submit/Update</Button>
       </div>
-      <div className="col-6">
+      <div className="col-6" ref={tooltipRef}>
         <svg ref={svgRef} />
       </div>
     </div>
