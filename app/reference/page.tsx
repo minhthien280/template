@@ -24,7 +24,7 @@ export default function ReferencePage() {
       posts={posts}
       initialDisplayPosts={initialDisplayPosts}
       pagination={pagination}
-      title="All Posts"
+      title="All References"
     />
   )
 }
