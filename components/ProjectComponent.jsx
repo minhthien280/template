@@ -1,47 +1,12 @@
 'use client'
-import { Button, Select, SelectItem, Slider } from '@nextui-org/react'
+import { Button, Select, SelectItem, Slider, Tooltip } from '@nextui-org/react'
 import { useState, useRef, useEffect } from 'react'
 import useMouse from '@react-hook/mouse-position'
 import DrawChart, { UpdateChart } from './D3Components/d3Project'
 
 export default function ProjectComponent() {
-  const regions = [
-    {
-      value: 'Africa',
-      label: 'Africa',
-    },
-    {
-      value: 'Arab States',
-      label: 'Arab States',
-    },
-    {
-      value: 'Asia & Pacific',
-      label: 'Asia & Pacific',
-    },
-    {
-      value: 'Europe',
-      label: 'Europe',
-    },
-    {
-      value: 'Middle east',
-      label: 'Middle east',
-    },
-    {
-      value: 'South/Latin America',
-      label: 'South/Latin America',
-    },
-    {
-      value: 'South/Central America',
-      label: 'South/Central America',
-    },
-    {
-      value: 'North America',
-      label: 'North America',
-    },
-  ]
   const svgRef = useRef()
   const tooltipRef = useRef()
-  const [region, setRegion] = useState()
   const [water, setWater] = useState(0)
   const [sanitation, setSanitation] = useState(0)
   const [trade, setTrade] = useState(0)
@@ -50,13 +15,6 @@ export default function ProjectComponent() {
   const [secondary, setSecondary] = useState(0)
   //const [prediction, setPrediction] = useState(0)
 
-  function onRegionChanged(r) {
-    //console.log(r)
-    var iter = r.values()
-    var next_item = iter.next()
-    console.log(next_item.value)
-    setRegion(r)
-  }
   function onWaterChanged(value) {
     setWater(value)
   }
@@ -76,9 +34,8 @@ export default function ProjectComponent() {
     setSecondary(value)
   }
   function onButtonClicked(event) {
-    var next_item = region.values().next()
     var req = {
-      region: next_item.value,
+      region: 'Europe',
       water: water,
       gdp: trade,
       sanitation: sanitation,
@@ -105,91 +62,95 @@ export default function ProjectComponent() {
   return (
     <div className="items-start space-y-2 xl:grid xl:grid-cols-2 xl:gap-x-8 xl:space-y-0">
       <div className="col-6">
-        <div id="regionSelection" className="flex w-full flex-wrap gap-4 pt-6 md:flex-nowrap">
-          <Select
-            label="Select a region"
-            className="max-w-xs"
-            selectedKeys={region}
-            onSelectionChange={onRegionChanged}
-          >
-            {regions.map((region) => (
-              <SelectItem key={region.value} value={region.value}>
-                {region.label}
-              </SelectItem>
-            ))}
-          </Select>
-        </div>
         <div id="waterSlider" className="flex w-full flex-wrap gap-4 pt-6 md:flex-nowrap">
-          <Slider
-            label="Water availability"
-            step={0.01}
-            maxValue={4}
-            minValue={-4}
-            defaultValue={0}
-            className="max-w-md"
-            value={water}
-            onChange={onWaterChanged}
-          />
+          <Tooltip content="Change in water availability next year">
+            <Slider
+              label="Water availability"
+              step={0.01}
+              maxValue={4}
+              minValue={-4}
+              defaultValue={0}
+              className="max-w-md"
+              value={water}
+              getValue={(d) => `${d}%`}
+              onChange={onWaterChanged}
+            />
+          </Tooltip>
         </div>
         <div id="sanitationSlider" className="flex w-full flex-wrap gap-4 pt-6 md:flex-nowrap">
-          <Slider
-            label="Sanitation Services"
-            step={0.01}
-            maxValue={4}
-            minValue={-4}
-            defaultValue={0}
-            className="max-w-md"
-            value={sanitation}
-            onChange={onSanitationChanged}
-          />
+          <Tooltip content="Change in Sanitation Services next year">
+            <Slider
+              label="Sanitation Services"
+              step={0.01}
+              maxValue={4}
+              minValue={-4}
+              defaultValue={0}
+              className="max-w-md"
+              value={sanitation}
+              getValue={(d) => `${d}%`}
+              onChange={onSanitationChanged}
+            />
+          </Tooltip>
         </div>
         <div id="tradeSlider" className="flex w-full flex-wrap gap-4 pt-6 md:flex-nowrap">
-          <Slider
-            label="Trade in services"
-            step={0.01}
-            maxValue={4}
-            minValue={-4}
-            defaultValue={0}
-            className="max-w-md"
-            value={trade}
-            onChange={onTradeChanged}
-          />
+          <Tooltip content="Change in Trade amount next year">
+            <Slider
+              label="Trade in services"
+              step={0.01}
+              maxValue={4}
+              minValue={-4}
+              defaultValue={0}
+              className="max-w-md"
+              value={trade}
+              getValue={(d) => `${d}%`}
+              onChange={onTradeChanged}
+            />
+          </Tooltip>
         </div>
         <div id="computerSlider" className="flex w-full flex-wrap gap-4 pt-6 md:flex-nowrap">
-          <Slider
-            label="Use of Computer/Communication"
-            step={0.01}
-            maxValue={4}
-            minValue={-4}
-            defaultValue={0}
-            className="max-w-md"
-            value={computer}
-            onChange={onComputerChanged}
-          />
+          <Tooltip content="Change in use of Computer/Communication Services next year">
+            <Slider
+              label="Use of Computer/Communication"
+              step={0.01}
+              maxValue={4}
+              minValue={-4}
+              defaultValue={0}
+              className="max-w-md"
+              value={computer}
+              getValue={(d) => `${d}%`}
+              onChange={onComputerChanged}
+            />
+          </Tooltip>
         </div>
         <div id="p2tSlider" className="flex w-full flex-wrap gap-4 pt-6 md:flex-nowrap">
-          <Slider
-            label="Student to teacher ratio"
-            step={0.01}
-            maxValue={4}
-            minValue={-4}
-            defaultValue={0}
-            className="max-w-md"
-            value={student}
-            onChange={onStudentChanged}
-          />
+          <Tooltip content="Change in Student-Teacher ratio next year">
+            <Slider
+              label="Student to teacher ratio"
+              step={0.01}
+              maxValue={4}
+              minValue={-4}
+              defaultValue={0}
+              className="max-w-md"
+              value={student}
+              getValue={(d) => `${d}%`}
+              onChange={onStudentChanged}
+            />
+          </Tooltip>
         </div>
         <div id="secondarySlider" className="flex w-full flex-wrap gap-4 pt-6 md:flex-nowrap">
-          <Slider
-            label="%Complete Secondary"
-            step={0.01}
-            maxValue={4}
-            minValue={-4}
-            defaultValue={0}
-            className="max-w-md"
-            value={secondary}
-            onChange={onSecondaryChanged}
-          />
+          <Tooltip content="Change in amount of people complete secondary next year">
+            <Slider
+              label="%Complete Secondary"
+              step={0.01}
+              maxValue={4}
+              minValue={-4}
+              defaultValue={0}
+              className="max-w-md"
+              value={secondary}
+              getValue={(d) => `${d}%`}
+              onChange={onSecondaryChanged}
+            />
+          </Tooltip>
         </div>
         <Button onClick={onButtonClicked}>Submit/Update</Button>
       </div>

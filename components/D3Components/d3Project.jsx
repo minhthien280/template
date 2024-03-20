@@ -107,7 +107,7 @@ export default function DrawChart(svgRef, tooltipRef) {
   var mousemove = function (d, region) {
     console.log(d)
     Tooltip.html(
-      `2022 average: ${fertility_data[region]}<br>Predicted value: ${predicted_fertility_data[region]}`
+      `2022 average: ${fertility_data[region]}<br>Predicted value: ${predicted_fertility_data[region].toFixed(3)}`
     )
       .style('left', d.layerX + 20 + 'px')
       .style('top', d.layerY + 20 + 'px')
